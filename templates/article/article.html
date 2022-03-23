@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="wrapper">
+        <div class="pat_appointment container pat_review">
+            <p>{% trans 'Available Tags:'%}
+                {% for mt in tags %}
+                    <a href="{% url 'articles' mt %}" class="badge badge-success">{{mt}}</a>
+                {% endfor %}
+            </p>
+		</div>
+        <div class="content-6">
+            {% for article in article_list %}
+                <div class="dr_prof">
+                    <a href="{% url 'detail' article.slug %}"><img src="{{article.image.url}}" width="150" height="150"/></a>
+                    <h1><a href="{% url 'detail' article.slug %}">{{ article.title }}</a></h1>
+                    <h4>{{article.creation_date}}</h4>
+                    <h5>
+                    {% for tag in article.tags.all %}
+                        <a href="{% url 'articles' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                    {% endfor %}
+                    </h5>
+                    <p class="truncate">{{article.content|striptags|slice:':300'}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

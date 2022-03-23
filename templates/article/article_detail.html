@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="wrapper">
+    <div class="content-6">
+        <img src="{{ article.image.url }}" width="100%" height="500"/>
+        <h4>{{ article.title }}</h4>
+        <h5>
+            {% for tag in article.tags.all %}
+                <a href="{% url 'articles' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+            {% endfor %}
+        </h5>
+        <label>{{ article.creation_date }}</label>
+        <p>{{ article.content|safe }}</p>
+    </div>
+</div>
+{% endblock %}

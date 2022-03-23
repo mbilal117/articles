@@ -1,0 +1,51 @@
+{% load static %}
+{% load i18n %}
+<html>
+    <head>
+        <title>Simple Blog</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/generic/style.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/generic/jquery-ui.css' %}"/>
+    </head>
+
+    <body>
+    <div class="container-fluid">
+        <div class="home_img">
+            <nav class="navbar navbar-default nav-margin home_nav">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <div class="logo">
+                            <a class="navbar-brand" href="/"><img src="{% static 'css/images/logo.png' %}"></a>
+                        </div>
+                    </div>
+                    {% get_current_language as CURRENT_LANGUAGE %}
+                    {% get_available_languages as AVAILABLE_LANGUAGES %}
+                    {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                    <div>
+                        <p>{% trans 'Languages'%}</p>
+                        <ul>
+                            {% for language in languages %}
+                            <li><a href="/{{ language.code }}/">{{ language.name_local }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div><!--/.container-fluid -->
+            </nav>
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+    </div>
+    <script src="/static/js/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <script src="/static/js/jquery-ui.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+    <script>
+    $("#post-form").submit(function(e){
+        e.preventDefault();
+        });</script>
+    </body>
+</html>
