@@ -1,17 +1,7 @@
 # About the application
 
-This is a Django based app wherein the admin can log-in and perform CRUD (create, read, update, and delete) operations on articles, whereas the visitors can only
-create and read articles. Internationalization is implemented to translate in English and German language.
+This is a Django based app wherein the admin can log-in and perform CRUD (create, read, update, and delete) operations on articles, whereas the visitors can only read articles. Internationalization is implemented to translate in English and German language.
 
-## Installing and executing the app
-
-```
-> git clone https://github.com/mbilal117/articles.git
-> cd articles
-> pip install -r requirements.txt
-> python manage.py migrate
-> python manage.py runserver
-```
 
 ## Requirements
 
@@ -27,6 +17,7 @@ Django 4.0.3
   * Change directory to articles `$ cd articles`
   * Create a virtual environment and install all requirements from Pipfile `$ virtualenv -p python3 venv`  
   * Activate the venv: `$ source venv/bin/activate`
+  * Install required packages `$ pip install -r requirements.txt `
   * Make migrations `$ python manage.py makemigrations`
   * rename .env_local file under articles folder to .env and replace database credentials
   * Migrate the changes to the database `$ python manage.py migrate`
