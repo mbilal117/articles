@@ -1,34 +1,34 @@
-version: "2.4"
-services:
-  web:
-    # the application's web service (container) will use an image based on our Dockerfile
-    build: "."
-    # map the internal port 80 to port 8000 on the host
-    ports:
-      - "8000:8080"
-    # map the host directory to app (which allows us to see and edit files inside the container)
-    # /app assumes you're using that in the Dockerfile
-    # /data is asuggestion for local media storage - see below
-    volumes:
-      - ".:/app:rw"
-      - "./data:/data:rw"
-    # an optional default command to run whenever the container is launched - this will override the Dockerfile's
-    # CMD, allowing your application to run with a server suitable for development - this example is for Django
-    command: python manage.py runserver 0.0.0.0:8080
-    # a link to database_default, the application's local database service
-    links:
-      - "database_default"
-    env_file: articles/.env
+version: "3.0"
 
-  database_default:
-    # Select one of the following configurations for the database
-    image: postgres:13.5-alpine
-    environment:
-      POSTGRES_DB: "db"
-      POSTGRES_PASSWORD: "pwd"
-      POSTGRES_HOST_AUTH_METHOD: "trust"
-      SERVICE_MANAGER: "fsm-postgres"
+services:
+  db:
+    image: postgres
+    restart: always
+    expose:
+      - "5432"
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
-      - ".:/app:rw"
+      - postgresql-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: articles
+      POSTGRES_PASSWORD: ET@117
+      POSTGRES_HOST: localhost
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:80"
+    volumes:
+      - .:/app
+      - ./static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+      
+volumes:
+  postgresql-data:
